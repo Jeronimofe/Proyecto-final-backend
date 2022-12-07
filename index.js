@@ -8,7 +8,7 @@ require("dotenv").config();
 const db = require ("./utils/db");
 
 const server = express();
-const PORT=5000 
+const PORT=4000 
 db.connectDb();
 
 

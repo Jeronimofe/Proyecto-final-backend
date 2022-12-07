@@ -5,7 +5,7 @@ const isAuth = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
     if (!token) {
-      return next("Unauthorized");
+      return res.status(401).json('Unauthorized');
     }
     const parsedToken = token.replace("Bearer ", "");
     const validToken = verifyJwt(parsedToken);
