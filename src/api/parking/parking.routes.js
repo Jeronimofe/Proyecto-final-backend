@@ -5,7 +5,7 @@ const { isAuth, isAdmin } = require('../../middlewares/auth');
 const router = express.Router();
 
 //* FUNCION QUE RECOGE TODOS LOS PARKINGS
-router.get('/', async(req, res, next) => {
+router.get('', async(req, res, next) => {
   try {
     const allParkings = await Parking.find().populate("bookings").populate("users");
     return res.status(200).json(allParkings);

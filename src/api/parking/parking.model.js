@@ -11,7 +11,8 @@ const parkingSchema = new Schema(
     image: {type: String, required:false},
     users: [{type: mongoose.Schema.Types.ObjectId, ref:"users", required: false}],
     latitude: {type:Number, required: true},
-    longitude: {type:Number, required: true} 
+    longitude: {type:Number, required: true},
+    
   },
   { 
     timestamps: true,

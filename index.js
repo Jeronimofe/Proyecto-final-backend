@@ -8,7 +8,7 @@ require("dotenv").config();
 const db = require ("./utils/db");
 
 const server = express();
-const PORT=4000 
+const PORT=5000 
 db.connectDb();
 
 
@@ -45,6 +45,7 @@ cloudinary.config({
 
 
 server.listen (PORT, () => {
+  console.log(`Escuchando en puerto http://localhost:${PORT}`);
 })
 
 

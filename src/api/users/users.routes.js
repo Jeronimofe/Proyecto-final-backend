@@ -8,9 +8,8 @@ const { isAuth } = require("../../middlewares/auth");
 
 router.get("/", async (req, res, next) => {
     try {
-        const allUsers = await User.find()
-            .populate([{ path: "bookings", strictPopulate: false }])
-            .populate([{ path: "parkings", strictPopulate: true }]);
+        const allUsers = await User.find().populate("bookings").populate("parking")
+            
         return res.status(200).json(allUsers);
     } catch (error) {
         return next(error);
@@ -61,9 +60,9 @@ router.put("/edit/:id", upload.single("photo"), async (req, res, next) => {
         }
         const userModify = new User(user);
         userModify._id = id;
-        const userUpdated = await User.findByIdAndUpdate(id, userModify, { returnOriginal: false, setDefaultsOnInsert: false }).populate(
-            "bookings"
-        );
+        const userUpdated = await User.findByIdAndUpdate(id, userModify, { returnOriginal: false, setDefaultsOnInsert: false }).populate("bookings").populate("parking");
+            
+        
         return res.status(200).json({ mensaje: "Se ha conseguido editar el usuario", userModificado: userUpdated });
     } catch (error) {
         return next(error);
@@ -80,7 +79,7 @@ router.post("/login", async (req, res, next) => {
             const token = generateSign(userDB._id, userDB.email);
             return res.status(200).json({ token, userDB });
         } else {
-            return res.status(200).json("La contraseÃ±a es incorrecta crack");
+            return res.status(200).json("La contrasena es incorrecta crack");
         }
     } catch (error) {
         return next(error);
@@ -99,8 +98,9 @@ router.post("/logout", async (req, res, next) => {
 router.post("/checkSession", [isAuth], async (req, res, next) => {
     console.log(req.header.authorization);
     try {
+        const user = await User.findById(req.user._id).populate("bookings").populate("parking")
         console.log(req.user);
-        return res.status(200).json(req.user);
+        return res.status(200).json(user);
     } catch (error) {
         return next(error);
     }
